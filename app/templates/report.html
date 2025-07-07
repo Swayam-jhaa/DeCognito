@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DeCognito Scan</title>
+</head>
+<body>
+    <h2>Scan a Domain:</h2>
+    <form method="post">
+        <input type="text" name="domain" placeholder="example.com" required>
+        <button type="submit">Scan</button>
+    </form>
+
+    {% if domain %}
+        <h3>Scan Result for: {{ domain }}</h3>
+        <pre>{{ result }}</pre>
+    {% endif %}
+</body>
+</html>
+
