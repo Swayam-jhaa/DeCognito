@@ -1,34 +1,23 @@
-import os
 import requests
-from dotenv import load_dotenv
-
-# Load RAPIDAPI_KEY from your .env
-load_dotenv()
-
-RAPIDAPI_KEY = os.getenv("RAPIDAPI_KEY")
-BASE_URL = "https://breachdirectory.p.rapidapi.com/"
+import os
 
 def check_email_breaches(email: str) -> dict:
-    """
-    Query BreachDirectory via RapidAPI.
-    Returns a dict with either:
-      - {"breaches": [...]} on success, or
-      - {"error": "..."} on failure.
-    """
+    api_key = os.getenv("RAPIDAPI_KEY")
     headers = {
-    "X-RapidAPI-Key": os.getenv("RAPIDAPI_KEY"),
-    "X-RapidAPI-Host": "breachdirectory.p.rapidapi.com"
-}
-
-    params = {"func": "auto", "term": email}
+        "X-RapidAPI-Key": api_key,
+        "X-RapidAPI-Host": "breachdirectory.p.rapidapi.com"
+    }
+    url = f"https://breachdirectory.p.rapidapi.com/?func=auto&term={email}"
 
     try:
-        resp = requests.get(BASE_URL, headers=headers, params=params, timeout=10)
-        resp.raise_for_status()
-        data = resp.json() or {}
-
-        # data’s keys are breach names; map to list
-        return {"breaches": list(data.keys())}
-
-    except requests.exceptions.RequestException as e:
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            data = response.json()
+            if data.get("success"):
+                return {"breaches": data.get("result", [])}
+            else:
+                return {"breaches": []}
+        else:
+            return {"error": response.text}
+    except Exception as e:
         return {"error": str(e)}
