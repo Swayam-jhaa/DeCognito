@@ -320,4 +320,14 @@ pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python
 
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+
+# OSINT output dumps & temporary test files
+*.txt
+!requirements.txt
+
+
 

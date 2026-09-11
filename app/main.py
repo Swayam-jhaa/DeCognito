@@ -33,3 +33,4 @@ app.include_router(history.router)
 @app.get("/")
 def read_root():
     return {"message": "Hello, DeCognito!"}
+

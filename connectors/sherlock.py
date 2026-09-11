@@ -34,3 +34,4 @@ def lookup_username(username: str) -> dict:
         return {"error": "Sherlock CLI not installed in this environment."}
     except Exception as e:
         return {"error": str(e)}
+    
